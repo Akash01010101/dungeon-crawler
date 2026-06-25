@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OOP Dungeon Crawler</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body oncontextmenu="return false;" style="background-color: #111; margin: 0; overflow: hidden;">
+    <!-- Main Menu Overlay -->
+    <div id="main-menu" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0a; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; font-family: 'Courier New', Courier, monospace;">
+        <h1 style="color: #e74c3c; font-size: 64px; text-shadow: 2px 2px 0px #000, 0 0 20px #e74c3c; margin-bottom: 50px; text-transform: uppercase; letter-spacing: 5px;">Wasteland Crawler</h1>
+        <button id="btn-new-game" style="background: #2c3e50; color: white; border: 2px solid #555; padding: 15px 40px; font-size: 24px; cursor: pointer; margin-bottom: 20px; font-family: 'Courier New', Courier, monospace; box-shadow: 0 0 10px #000; transition: background 0.2s;">New Game</button>
+        <button id="btn-load-game" style="background: #2c3e50; color: white; border: 2px solid #555; padding: 15px 40px; font-size: 24px; cursor: pointer; font-family: 'Courier New', Courier, monospace; box-shadow: 0 0 10px #000; transition: background 0.2s;">Load Game</button>
+        <div id="load-error" style="color: #e74c3c; margin-top: 20px; display: none;">No save file found!</div>
+    </div>
+
+    <!-- Gameplay UI (Hidden by default) -->
+    <div id="game-ui" style="display: none;">
+        <div id="ui-layer" style="position: absolute; top: 20px; left: 20px; pointer-events: none; z-index: 100; font-family: 'Courier New', Courier, monospace; text-shadow: 1px 1px 0px #000;">
+        <div style="color: white; font-weight: bold; margin-bottom: 5px;">Health: <span id="health-text">100</span></div>
+        <div style="width: 200px; height: 20px; background: #333; margin-bottom: 5px; border: 2px solid #555;">
+            <div id="health-bar" style="width: 100%; height: 100%; background: #e74c3c; transition: width 0.2s;"></div>
+        </div>
+        <div style="color: white; font-weight: bold; margin-bottom: 5px;">Mana: <span id="mana-text">100</span></div>
+        <div style="width: 200px; height: 20px; background: #333; margin-bottom: 5px; border: 2px solid #555;">
+            <div id="mana-bar" style="width: 100%; height: 100%; background: #3498db; transition: width 0.2s;"></div>
+        </div>
+        <div style="color: white; font-weight: bold; margin-bottom: 5px;">Hunger: <span id="hunger-text">100</span></div>
+        <div style="width: 200px; height: 20px; background: #333; margin-bottom: 15px; border: 2px solid #555;">
+            <div id="hunger-bar" style="width: 100%; height: 100%; background: #e67e22; transition: width 0.2s;"></div>
+        </div>
+        
+        <div style="color: gold; font-weight: bold; font-size: 20px;">Gold: <span id="gold-text">0</span></div>
+        <div style="color: yellow; font-weight: bold; margin-top: 10px; font-size: 14px;">Level: <span id="level-text">1</span></div>
+        <div style="width: 200px; height: 10px; background: #333; margin-bottom: 5px; border: 1px solid #555;">
+            <div id="xp-bar" style="width: 0%; height: 100%; background: #f1c40f; transition: width 0.2s;"></div>
+        </div>
+        <div style="color: white; font-size: 10px; margin-bottom: 15px;">XP: <span id="xp-text">0 / 100</span></div>
+        
+        <div style="margin-top: 20px;">
+            <canvas id="minimap-canvas" width="150" height="150" style="border: 2px solid #aaa; background: rgba(0,0,0,0.5);"></canvas>
+            <div style="color: white; font-size: 12px; text-align: center;">Minimap</div>
+        </div>
+        
+        <div style="margin-top: 20px; background: rgba(0,0,0,0.6); padding: 10px; border: 1px solid #555; color: white; font-size: 14px;">
+            <b>Controls:</b><br/>
+            WASD: Move<br/>
+            Left Click: Melee Attack<br/>
+            Right Click: Ranged Attack<br/>
+            E: Power Attack (50 Mana)<br/>
+            Shift: Sprint (Uses Hunger)<br/>
+            F: Eat Food / Cook<br/>
+            M: Toggle Map<br/>
+            C: Character Sheet<br/>
+            1: Buy Health (20g)<br/>
+            2: Buy Mana (20g)<br/>
+            3: Hire Mercenary (50g)<br/>
+            4: Buy Bread (15g)<br/>
+            5: Save Game (In Safe Zone)<br/>
+        </div>
+    </div>
+    
+    <div id="inventory-ui" style="position: absolute; top: 20px; right: 20px; padding: 15px; background: rgba(0,0,0,0.8); color: white; border: 2px solid #555; border-radius: 5px; font-family: monospace; display: flex; flex-direction: column; gap: 8px; z-index: 100;">
+        <strong style="text-align: center; border-bottom: 1px solid #555; padding-bottom: 5px;">Inventory</strong>
+        <div>Raw Meat: <span id="inv-raw-meat" style="color: #e74c3c;">0</span></div>
+        <div>Cooked Meat: <span id="inv-cooked-meat" style="color: #e67e22;">0</span></div>
+        <div>Bread: <span id="inv-bread" style="color: #f1c40f;">0</span></div>
+    </div>
+
+    <div id="stat-sheet" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); padding: 20px; border: 2px solid gold; color: white; z-index: 150; font-family: Arial; min-width: 200px;">
+        <h2 style="margin-top: 0; color: gold; text-align: center;">Character Sheet</h2>
+        <div>Strength: <span id="stat-str">5</span></div>
+        <div>Agility: <span id="stat-agi">5</span></div>
+        <div>Intelligence: <span id="stat-int">5</span></div>
+        <div>Defense: <span id="stat-def">5</span></div>
+        <div>Luck: <span id="stat-luc">5</span></div>
+        <div style="margin-top: 15px; font-size: 12px; color: #aaa; text-align: center;">(Press C to close)</div>
+    </div>
+
+    <div id="shop-prompt" style="display: none; position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); color: white; background: rgba(0,0,0,0.8); padding: 15px; border: 2px solid #8e44ad; z-index: 100; font-family: Arial; text-align: center;">
+        <h3 style="margin-top: 0;">Village Shop & Fire</h3>
+        <div>Press <b>'1'</b>: Buy Health Potion (20 Gold)</div>
+        <div style="margin-top: 5px;">Press <b>'2'</b>: Buy Mana Potion (20 Gold)</div>
+        <div style="margin-top: 5px;">Press <b>'3'</b>: Hire Mercenary (50 Gold)</div>
+        <div style="margin-top: 5px;">Press <b>'4'</b>: Buy Bread (15 Gold)</div>
+        <div style="margin-top: 5px; color: #e67e22;">Press <b>'F'</b>: Cook Meat (1 Raw Meat)</div>
+        <div style="margin-top: 5px; color: #3498db;">Press <b>'5'</b>: Save Game</div>
+    </div>
+
+    <button id="map-btn" style="position: absolute; top: 20px; right: 20px; padding: 10px; z-index: 100; cursor: pointer; font-family: 'Courier New', Courier, monospace; background: #333; color: white; border: 1px solid #555;">Toggle Map (M)</button>
+    
+    <div id="map-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 200;">
+        <button id="close-map-btn" style="position: absolute; top: 20px; right: 20px; padding: 10px; font-size: 16px; cursor: pointer; font-family: 'Courier New', Courier, monospace; background: #333; color: white; border: 1px solid #555;">Close Map</button>
+        <canvas id="map-canvas" width="600" height="600" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid white;"></canvas>
+    </div>
+    </div> <!-- End game-ui -->
+
+    <div id="game-container"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
