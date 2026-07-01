@@ -1,3 +1,4 @@
+import { drawIsoAnimal } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 import { Wolf } from './Wolf.js';
@@ -18,11 +19,9 @@ export class DireWolf extends Character {
         this.hasHowled = false; // Only summons pack once
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.circle(0, 0, 20); // Larger than normal wolf
-        this.sprite.fill(0x333333); // Darker
-        this.sprite.stroke({ color: 0xff0000, width: 2 }); // Red glowing eyes
+        drawIsoAnimal(this.sprite, 0x641E16, 1.3, { outline: 0xc0392b });
     }
 
     update(delta, allEntities, player) {

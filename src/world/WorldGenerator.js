@@ -18,6 +18,7 @@ import { OrcBruiser } from '../entities/OrcBruiser.js';
 import { Slime } from '../entities/Slime.js';
 import { Troll } from '../entities/Troll.js';
 import * as PIXI from 'pixi.js';
+import { cartToIso } from '../utils/IsoUtils.js';
 
 export class WorldGenerator {
     constructor(game) {
@@ -203,15 +204,27 @@ export class WorldGenerator {
             graphics: null
         };
 
-        // Draw chunk background
+        // Draw chunk background as isometric diamond
         const g = new PIXI.Graphics();
         // Post-Apocalyptic Colors:
-        // Village/Safe Zone: Dark Rusted Scrap Metal (0x2b2b2b)
-        // Wilderness: Muted Toxic Dirt/Wasteland (0x3a4030)
         const color = type === 'village' ? 0x2b2b2b : 0x3a4030;
-        g.rect(cx * this.chunkSize, cy * this.chunkSize, this.chunkSize, this.chunkSize);
-        g.fill({ color, alpha: 0.3 });
-        g.stroke({ color: 0x000000, width: 2 });
+        const s = this.chunkSize;
+        const wx = cx * s;
+        const wy = cy * s;
+
+        // 4 corners of the chunk projected to isometric space
+        const tl = cartToIso(wx, wy);
+        const tr = cartToIso(wx + s, wy);
+        const br = cartToIso(wx + s, wy + s);
+        const bl = cartToIso(wx, wy + s);
+
+        g.moveTo(tl.x, tl.y);
+        g.lineTo(tr.x, tr.y);
+        g.lineTo(br.x, br.y);
+        g.lineTo(bl.x, bl.y);
+        g.closePath();
+        g.fill({ color, alpha: 0.4 });
+        g.stroke({ color: type === 'village' ? 0x555555 : 0x2a3020, width: 1.5 });
         chunkData.graphics = g;
 
         this.chunks[key] = chunkData;

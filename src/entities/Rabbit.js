@@ -1,3 +1,4 @@
+import { drawIsoAnimal } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -14,11 +15,9 @@ export class Rabbit extends Character {
     }
 
     // Override to draw a small white rabbit
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.circle(0, 0, 8);
-        this.sprite.fill(0xffffff);
-        this.sprite.stroke({ color: 0x000000, width: 1 });
+        drawIsoAnimal(this.sprite, 0xffffff, 0.5, {});
     }
 
     update(delta, allEntities, player) {

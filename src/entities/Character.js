@@ -29,25 +29,26 @@ export class Character extends Entity {
             this.nameLabel = new PIXI.Text({
                 text: this.constructor.name,
                 style: {
-                    fontFamily: 'Arial',
-                    fontSize: 12,
+                    fontFamily: 'Courier New',
+                    fontSize: 11,
                     fill: 0xffffff,
-                    stroke: { color: 0x000000, width: 2 },
+                    stroke: { color: 0x000000, width: 3 },
                     align: 'center'
                 }
             });
             this.nameLabel.anchor.set(0.5);
-            this.nameLabel.y = -40;
+            this.nameLabel.y = -50;
             this.container.addChild(this.nameLabel);
             
-            // Visual hostility for enemies
+            // Visual hostility aura for enemies (isometric ellipse)
             if (this.#faction === 'enemy' || this.#faction === 'predator') {
                 this.scaryAura = new PIXI.Graphics();
-                this.container.addChildAt(this.scaryAura, 0); // Put it at the bottom
+                this.container.addChildAt(this.scaryAura, 0); // behind sprite
                 
                 // Scale aura by maxHealth
-                const auraSize = Math.min(80, 20 + (this.maxHealth * 0.2));
-                this.scaryAura.circle(0, 0, auraSize);
+                const auraRadiusX = Math.min(60, 16 + (this.maxHealth * 0.15));
+                const auraRadiusY = auraRadiusX * 0.45; // foreshortened for iso
+                this.scaryAura.ellipse(0, 4, auraRadiusX, auraRadiusY);
                 
                 // Intensity based on health
                 const intensity = Math.min(0.6, this.maxHealth / 400);
@@ -65,12 +66,12 @@ export class Character extends Entity {
         this.hpBar.clear();
         
         // Background
-        this.hpBar.rect(-20, -30, 40, 5);
+        this.hpBar.rect(-20, -42, 40, 4);
         this.hpBar.fill(0x555555);
         
-        // Health
+        // Health fill
         const hpPercent = Math.max(0, this.#health / this.maxHealth);
-        this.hpBar.rect(-20, -30, 40 * hpPercent, 5);
+        this.hpBar.rect(-20, -42, 40 * hpPercent, 4);
         
         if (this.#faction === 'enemy') {
             this.hpBar.fill(0xff0000); // Red for enemies
@@ -115,30 +116,32 @@ export class Character extends Entity {
 
     showDamageText(amount, color) {
         if (this.currentDamageText && this.currentDamageText.life > 30) {
-            // Stack damage
+            // Stack damage onto existing text
             this.accumulatedDamage += amount;
             this.currentDamageText.element.text = this.accumulatedDamage.toString();
             const scale = Math.min(2.0, 1 + (this.accumulatedDamage / 100));
             this.currentDamageText.element.scale.set(scale);
-            this.currentDamageText.element.y = this.y - 40; // bump up slightly
+            // Reposition to current iso coordinates
+            this.currentDamageText.element.x = this.isoX;
+            this.currentDamageText.element.y = this.isoY - 50;
             this.currentDamageText.life = 60; // reset life
             this.currentDamageText.element.alpha = 1;
         } else {
-            // New damage text
+            // New damage text — positioned in isometric screen space
             this.accumulatedDamage = amount;
             import('pixi.js').then(PIXI => {
                 const text = new PIXI.Text({
                     text: amount.toString(),
                     style: {
-                        fontFamily: 'Arial',
-                        fontSize: 24,
+                        fontFamily: 'Courier New',
+                        fontSize: 22,
                         fill: color,
                         stroke: { color: 0x000000, width: 4 },
                         fontWeight: 'bold'
                     }
                 });
-                text.x = this.x;
-                text.y = this.y - 30;
+                text.x = this.isoX;
+                text.y = this.isoY - 40;
                 text.anchor.set(0.5);
                 this.stage.addChild(text);
                 

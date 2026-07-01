@@ -1,3 +1,4 @@
+import { drawIsoAnimal } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 

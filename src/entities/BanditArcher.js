@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 import { Projectile } from './Projectile.js';
@@ -15,11 +16,9 @@ export class BanditArcher extends Character {
         this.mana = 50;
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.rect(-10, -10, 20, 20);
-        this.sprite.fill(0x34495e); // Dark grey
-        this.sprite.stroke({ color: 0x2ecc71, width: 2 }); // Green trim
+        drawIsoHumanoid(this.sprite, 0x7f8c8d, 1, { outline: 0x27ae60 });
     }
 
     update(delta, allEntities, player) {

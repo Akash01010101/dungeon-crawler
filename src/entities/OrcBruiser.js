@@ -1,3 +1,4 @@
+import { drawIsoBrute } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -11,11 +12,9 @@ export class OrcBruiser extends Character {
         this.attackPower = 25; // High damage
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.rect(-15, -15, 30, 30);
-        this.sprite.fill(0xc0392b); // Darker red than normal Orc
-        this.sprite.stroke({ color: 0x000000, width: 3 });
+        drawIsoBrute(this.sprite, 0x8B0000, 1.3, { outline: 0xe74c3c });
     }
 
     update(delta, allEntities, player) {

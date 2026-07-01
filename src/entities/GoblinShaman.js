@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -10,11 +11,9 @@ export class GoblinShaman extends Character {
         this.healCooldown = 0;
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.rect(-8, -8, 16, 16);
-        this.sprite.fill(0x8e44ad); // Purple
-        this.sprite.stroke({ color: 0x2ecc71, width: 2 }); // Green staff
+        drawIsoHumanoid(this.sprite, 0x8e44ad, 0.85, { outline: 0x27ae60 });
     }
 
     update(delta, allEntities, player) {

@@ -1,3 +1,4 @@
+import { drawIsoBrute } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -11,15 +12,9 @@ export class Troll extends Character {
         this.attackPower = 40; // High damage
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.poly([
-            0, -30,
-            25, 30,
-            -25, 30
-        ]);
-        this.sprite.fill(0x16a085); // Dark teal
-        this.sprite.stroke({ color: 0x000000, width: 3 });
+        drawIsoBrute(this.sprite, 0x17a589, 1.6, { outline: 0x1abc9c });
     }
 
     update(delta, allEntities, player) {

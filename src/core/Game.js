@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { Warrior } from '../entities/Warrior.js';
 import { Input } from './Input.js';
+import { Camera } from './Camera.js';
 import { WorldGenerator } from '../world/WorldGenerator.js';
 
 export class Game {
@@ -15,15 +16,20 @@ export class Game {
     }
 
     async init() {
-        await this.app.init({ resizeTo: window, backgroundColor: 0x222222 });
+        await this.app.init({ resizeTo: window, backgroundColor: 0x1a1a1a });
         document.getElementById('game-container').appendChild(this.app.canvas);
 
         this.worldContainer = new PIXI.Container();
+        this.worldContainer.sortableChildren = true; // Enable depth sorting for isometric
         this.app.stage.addChild(this.worldContainer);
+        
+        // Camera
+        this.camera = new Camera();
         
         // Spawn player
         this.player = new Warrior(0, 0, this.worldContainer);
         this.entities.push(this.player);
+        this.camera.followTarget = this.player;
 
         this.worldGenerator = new WorldGenerator(this);
 
@@ -279,9 +285,9 @@ export class Game {
             this.player.inSafeZone = false;
         }
 
-        // Camera follow (Center player in full screen)
-        this.worldContainer.x = (window.innerWidth / 2) - this.player.x;
-        this.worldContainer.y = (window.innerHeight / 2) - this.player.y;
+        // Camera (replaces old follow code)
+        this.camera.update(delta, this.input.scrollDelta);
+        this.camera.applyTo(this.worldContainer);
 
         // Day/Night Cycle Logic
         this.timeOfDay += delta * 2; // Advance time

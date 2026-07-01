@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -12,11 +13,9 @@ export class Skeleton extends Character {
         this.state = 'Hunt'; // Always hunts
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.rect(-8, -15, 16, 30);
-        this.sprite.fill(0xecf0f1); // Bone white
-        this.sprite.stroke({ color: 0x000000, width: 1 });
+        drawIsoHumanoid(this.sprite, 0xecf0f1, 1, { outline: 0xbdc3c7 });
     }
 
     update(delta, allEntities, player) {

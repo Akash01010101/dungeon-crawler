@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -11,15 +12,9 @@ export class Vampire extends Character {
         this.attackPower = 20;
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.poly([
-            0, -20,
-            15, 20,
-            -15, 20
-        ]);
-        this.sprite.fill(0x8e44ad); // Purple
-        this.sprite.stroke({ color: 0x000000, width: 2 });
+        drawIsoHumanoid(this.sprite, 0x6c3483, 1.1, { outline: 0xbb8fce });
     }
 
     update(delta, allEntities, player) {

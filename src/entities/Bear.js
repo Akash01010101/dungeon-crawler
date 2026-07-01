@@ -1,3 +1,4 @@
+import { drawIsoAnimal } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -16,11 +17,9 @@ export class Bear extends Character {
     }
 
     // Override to draw a large brown bear
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.rect(-20, -20, 40, 40);
-        this.sprite.fill(0x5c4033); // Dark brown
-        this.sprite.stroke({ color: 0x000000, width: 2 });
+        drawIsoAnimal(this.sprite, 0x6E2C00, 1.5, { outline: 0x873600 });
     }
 
     update(delta, allEntities, player) {

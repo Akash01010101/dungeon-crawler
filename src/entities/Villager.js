@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 import { checkCollision } from '../utils/Collision.js';
@@ -8,8 +9,7 @@ export class Villager extends Character {
         super(x, y, stage, 50, 0.5, 'neutral'); // 50 health, slow speed, neutral faction
 
         this.sprite = new PIXI.Graphics();
-        this.sprite.rect(-15, -15, 30, 30);
-        this.sprite.fill(0xecf0f1); // White/Gray
+        drawIsoHumanoid(this.sprite, 0xecf0f1, 0.9, {});
         this.container.addChild(this.sprite);
 
         this.wanderCooldown = 0;

@@ -1,3 +1,4 @@
+import { drawIsoBlob } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -13,11 +14,9 @@ export class Slime extends Character {
         this.attackPower = 10 * size;
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.circle(0, 0, 10 * this.size);
-        this.sprite.fill({ color: 0x2ecc71, alpha: 0.8 }); // Green jelly
-        this.sprite.stroke({ color: 0x27ae60, width: 2 });
+        drawIsoBlob(this.sprite, 0x2ecc71, this.size * 0.8, { outline: 0x27ae60 });
     }
 
     update(delta, allEntities, player) {

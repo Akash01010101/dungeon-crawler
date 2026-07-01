@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Enemy } from './Enemy.js';
 import { checkCollision } from '../utils/Collision.js';
@@ -6,10 +7,9 @@ export class Orc extends Enemy {
     constructor(x, y, stage) {
         super(x, y, stage, 80, 0.8); // Rebalanced HP to 80
 
-        // Draw a dark red large rectangle for Orc
+        // Isometric Orc sprite
         this.sprite = new PIXI.Graphics();
-        this.sprite.rect(-25, -25, 50, 50);
-        this.sprite.fill(0xc0392b); // Dark Red
+        drawIsoHumanoid(this.sprite, 0xc0392b, 1.2, { outline: 0xe74c3c });
         this.container.addChild(this.sprite);
 
         this.attackPower = 15;

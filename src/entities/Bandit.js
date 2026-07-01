@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -11,11 +12,9 @@ export class Bandit extends Character {
         this.attackPower = 15;
     }
 
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.rect(-10, -10, 20, 20);
-        this.sprite.fill(0x34495e); // Dark grey
-        this.sprite.stroke({ color: 0xe74c3c, width: 2 }); // Red bandana
+        drawIsoHumanoid(this.sprite, 0x7f8c8d, 1, { outline: 0xe74c3c });
     }
 
     update(delta, allEntities, player) {

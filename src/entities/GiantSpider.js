@@ -1,3 +1,4 @@
+import { drawIsoBlob } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Character } from './Character.js';
 
@@ -16,11 +17,9 @@ export class GiantSpider extends Character {
     }
 
     // Override to draw an eight-legged star
-    draw(color) {
+    draw() {
         this.sprite.clear();
-        this.sprite.circle(0, 0, 15);
-        this.sprite.fill(0x2c3e50); // Dark grey/blue
-        this.sprite.stroke({ color: 0xffffff, width: 1 });
+        drawIsoBlob(this.sprite, 0x2c3e50, 1.2, { outline: 0x1abc9c });
     }
 
     update(delta, allEntities, player) {

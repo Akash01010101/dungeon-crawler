@@ -1,3 +1,4 @@
+import { drawIsoStructure } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Entity } from './Entity.js';
 import { checkCollision } from '../utils/Collision.js';
@@ -7,21 +8,20 @@ export class Shop extends Entity {
         super(x, y, stage);
         this.faction = 'neutral';
 
-        // Draw a building
+        // Isometric Shop building
         this.sprite = new PIXI.Graphics();
-        this.sprite.rect(-40, -40, 80, 80);
-        this.sprite.fill(0x8e44ad); // Purple building
+        drawIsoStructure(this.sprite, 0x8e44ad, 0xa569bd, 50, 45, 25);
         
         // Add a 'SHOP' label
         const text = new PIXI.Text({
             text: 'SHOP',
-            style: { fill: 0xffffff, fontSize: 16 }
+            style: { fill: 0xffffff, fontSize: 14, fontFamily: 'Courier New', stroke: { color: 0x000000, width: 2 } }
         });
         text.anchor.set(0.5);
-        text.y = -20;
+        text.y = -55;
         
-        this.sprite.addChild(text);
         this.container.addChild(this.sprite);
+        this.container.addChild(text);
     }
 
     update(delta, allEntities, player) {

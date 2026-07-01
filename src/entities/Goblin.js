@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Enemy } from './Enemy.js';
 import { checkCollision } from '../utils/Collision.js';
@@ -6,10 +7,9 @@ export class Goblin extends Enemy {
     constructor(x, y, stage) {
         super(x, y, stage, 25, 1.5); // Rebalanced HP to 25 for fast TTK
 
-        // Draw a green triangle/circle for Goblin
+        // Isometric Goblin sprite
         this.sprite = new PIXI.Graphics();
-        this.sprite.circle(0, 0, 15);
-        this.sprite.fill(0x2ecc71); // Green
+        drawIsoHumanoid(this.sprite, 0x2ecc71, 0.8, { outline: 0x27ae60 });
         this.container.addChild(this.sprite);
 
         this.attackPower = 5;

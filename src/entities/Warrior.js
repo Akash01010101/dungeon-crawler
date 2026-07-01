@@ -1,3 +1,4 @@
+import { drawIsoHumanoid } from '../utils/SpriteHelpers.js';
 import * as PIXI from 'pixi.js';
 import { Player } from './Player.js';
 import { checkCollision } from '../utils/Collision.js';
@@ -7,10 +8,9 @@ export class Warrior extends Player {
     constructor(x, y, stage) {
         super(x, y, stage, 100, 3); // 100 health, 3 speed
 
-        // Draw a blue square for the Warrior
+        // Isometric Warrior sprite
         this.sprite = new PIXI.Graphics();
-        this.sprite.rect(-20, -20, 40, 40);
-        this.sprite.fill(0x3498db); // Blue
+        drawIsoHumanoid(this.sprite, 0x3498db, 1.1, { outline: 0x2980b9 });
         this.container.addChild(this.sprite);
 
         this.attackCooldown = 0;

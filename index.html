@@ -96,6 +96,40 @@
     </div>
     </div> <!-- End game-ui -->
 
+    <!-- Mobile Controls (Touch Devices) -->
+    <div id="mobile-controls" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; font-family: monospace; user-select: none; -webkit-user-select: none;">
+        <!-- D-Pad -->
+        <div style="position: absolute; bottom: 30px; left: 30px; pointer-events: auto; display: grid; grid-template-columns: 60px 60px 60px; grid-template-rows: 60px 60px 60px; gap: 5px; opacity: 0.6;">
+            <div></div>
+            <button class="mob-btn" data-key="w" style="background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 10px; color: white; font-weight: bold; font-size: 20px;">W</button>
+            <div></div>
+            <button class="mob-btn" data-key="a" style="background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 10px; color: white; font-weight: bold; font-size: 20px;">A</button>
+            <button class="mob-btn" data-key="s" style="background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 10px; color: white; font-weight: bold; font-size: 20px;">S</button>
+            <button class="mob-btn" data-key="d" style="background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 10px; color: white; font-weight: bold; font-size: 20px;">D</button>
+        </div>
+        <!-- Action Buttons -->
+        <div style="position: absolute; bottom: 30px; right: 30px; pointer-events: auto; display: flex; flex-wrap: wrap-reverse; width: 140px; justify-content: flex-end; gap: 10px; opacity: 0.6;">
+            <button class="mob-btn" data-key="Shift" style="width: 60px; height: 60px; background: rgba(100,255,100,0.3); border: 2px solid #fff; border-radius: 50%; color: white; font-weight: bold;">Run</button>
+            <button class="mob-btn" data-key="e" style="width: 60px; height: 60px; background: rgba(200,100,255,0.3); border: 2px solid #fff; border-radius: 50%; color: white; font-weight: bold;">Pwr</button>
+            <button class="mob-btn" data-mouse="2" style="width: 60px; height: 60px; background: rgba(100,100,255,0.3); border: 2px solid #fff; border-radius: 50%; color: white; font-weight: bold;">Rng</button>
+            <button class="mob-btn" data-mouse="0" style="width: 60px; height: 60px; background: rgba(255,100,100,0.3); border: 2px solid #fff; border-radius: 50%; color: white; font-weight: bold;">Atk</button>
+        </div>
+        <!-- Utilities -->
+        <div style="position: absolute; top: 80px; right: 20px; pointer-events: auto; display: flex; flex-direction: column; gap: 10px; opacity: 0.6;">
+            <button class="mob-btn" data-key="f" style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 10px; color: white; font-weight: bold;">F</button>
+            <button class="mob-btn" data-key="c" style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 10px; color: white; font-weight: bold;">C</button>
+            <button class="mob-btn" data-key="m" style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 10px; color: white; font-weight: bold;">M</button>
+        </div>
+        <!-- Shop -->
+        <div style="position: absolute; top: 80px; left: 20px; pointer-events: auto; display: flex; flex-direction: column; gap: 10px; opacity: 0.6;">
+            <button class="mob-btn" data-key="1" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 5px; color: white;">1</button>
+            <button class="mob-btn" data-key="2" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 5px; color: white;">2</button>
+            <button class="mob-btn" data-key="3" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 5px; color: white;">3</button>
+            <button class="mob-btn" data-key="4" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 5px; color: white;">4</button>
+            <button class="mob-btn" data-key="5" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border: 2px solid #fff; border-radius: 5px; color: white;">5</button>
+        </div>
+    </div>
+
     <div id="game-container"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
